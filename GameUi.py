@@ -1,6 +1,9 @@
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QBoxLayout, QTextEdit, QListWidget, QPushButton, QListView, QGridLayout
 
+import utils
+from Action import SubAction, BackAction
+
 
 class GameWindow(QWidget):
     opensw = pyqtSignal(name='openSettingsWindow')
@@ -14,7 +17,8 @@ class GameWindow(QWidget):
 
         # VARIABLES INIT
         self.am = am
-
+        self.sub_actions = None
+        self.is_sub = False
 
         # WIDGETS INIT
         self.log_view = QTextEdit()
@@ -60,15 +64,29 @@ class GameWindow(QWidget):
         self.show()
 
     def submitButtonEvent(self):
-        action = self.am.findByName(self.actions_view.currentItem().text())
+        tmp_name = self.actions_view.currentItem().text()
+        if not self.is_sub:
+            action = utils.findActionByName(tmp_name, self.am.actions_list)
+        else:
+            action = utils.findActionByName(tmp_name, self.sub_actions)
 
-        self.log_view.insertPlainText(f"\n> {action}")
-        action.activate()
+        if isinstance(action, SubAction):
+            self.sub_actions = action.activate()
+            self.actions_view.clear()
+            for a in self.sub_actions:
+                self.actions_view.addItem(f"{a.name}")
+            self.is_sub = True
+        if isinstance(action, BackAction):
+            self.sub_actions = None
+            self.actions_view.clear()
+            for a in self.am.actions_list:
+                self.actions_view.addItem(f"{a.name}")
+            self.is_sub = False
+        else:
+            action.activate()
+            self.log_view.insertPlainText(f"\n> {action}")
+            self.log_view.insertHtml(f"\n{self.am.player}")
 
-        self.log_view.insertHtml(f"\n{self.am.player}")
-
-        self.log_view.insertHtml(f"<script>document.getElementById('test').innerHTML = 'test'</script>")
-        # self.log_view.insertPlainText("\n"+self.actions_view.currentItem().text())
 
     def settingsButtonEvent(self):
         self.opensw.emit()

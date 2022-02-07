@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from ActionManager import ActionManager
+from GameManager import GameManager
 from GameUi import GameWindow
 from Player import Player
 from SettingsUi import SettingsWindow
@@ -16,7 +16,7 @@ def openSettings():
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     p = Player("Sqaarf")
-    am = ActionManager(p)
+    am = GameManager(p)
     gw = GameWindow(am)
     sw = None
     gw.opensw.connect(openSettings)
