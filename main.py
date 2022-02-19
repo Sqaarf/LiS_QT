@@ -2,10 +2,10 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from GameManager import GameManager
-from GameUi import GameWindow
-from Player import Player
-from SettingsUi import SettingsWindow
+from GameComponents.GameManager import GameManager
+from UiComponents.GameUi import GameWindow
+from GameComponents.Player import Player
+from UiComponents.SettingsUi import SettingsWindow
 
 
 def openSettings():
