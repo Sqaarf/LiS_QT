@@ -8,6 +8,7 @@ class Player():
 
         self.stats_max = {'hp': 15, 'energy': 20, 'hunger': 20, 'thirst': 15}
         self.stats = {'hp': 15, 'energy': 20, 'hunger': 20, 'thirst': 15}
+        self.multipliers = {'mining': 1, 'foraging': 1}
 
         self.inventory = Inventory()
 

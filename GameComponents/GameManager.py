@@ -1,5 +1,5 @@
 from GameComponents.Action import *
-from GameComponents.Item import Item
+from GameComponents.Item import *
 from GameComponents.Zone import *
 
 
@@ -13,15 +13,16 @@ class GameManager:
         self.MOUNTAINS = Zone("Mountains")
 
         self.default_move_action = SubAction("move", "Move to a place", self.player, sub_actions=[
-                MoveAction("move_home", "Go to the Home", self.player, self.HOME),
-                MoveAction("move_forest", "Go to the Forest", self.player, self.FOREST),
-                MoveAction("move_river", "Go to the River", self.player, self.RIVER),
-                MoveAction("move_mountains", "Go to the Mountains", self.player, self.MOUNTAINS),
-                BackAction(self.player)
-            ])
+            MoveAction("move_home", "Go to the Home", self.player, self.HOME),
+            MoveAction("move_forest", "Go to the Forest", self.player, self.FOREST),
+            MoveAction("move_river", "Go to the River", self.player, self.RIVER),
+            MoveAction("move_mountains", "Go to the Mountains", self.player, self.MOUNTAINS),
+            BackAction(self.player)
+        ])
 
         self.default_craft_action = SubAction("craft", "Craft an item", self.player, sub_actions=[
-            InventoryAction("craft_axe", "Craft an axe", self.player, Item("axe", "An axe to chop wood !", self.player)),
+            InventoryAction("craft_axe", "Craft an axe", self.player,
+                            MultItem("axe", "An axe to chop wood !", self.player, {"mining": 1.5})),
             BackAction(self.player)
         ])
 
